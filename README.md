@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/1208547040.svg)](https://doi.org/10.5281/zenodo.19537951)
 ## FGMLab - Fisher's Geometric Model Simulator
 This repository contains the code behind FGMLab. The actual application can be accessed at [https://gabe-dubose.github.io/FGMLab/](https://gabe-dubose.github.io/FGMLab/).
 
