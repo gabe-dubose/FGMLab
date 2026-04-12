@@ -1,0 +1,310 @@
+/* ── global reset and base ───────────────────────────────────────────────── */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #008080;
+    font-family: "Pixelated MS Sans Serif", Arial, sans-serif;
+    font-size: 11px;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ── main app container (outer window) ───────────────────────────────────── */
+#app-container {
+    width: 98vw;
+    height: 96vh;
+    display: flex;
+    flex-direction: column;
+    background: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    box-shadow: 2px 2px 0px #000000;
+}
+
+/* ── title bar ───────────────────────────────────────────────────────────── */
+.title-bar {
+    background: linear-gradient(to right, #000080, #1084d0);
+    padding: 3px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.title-bar-text {
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.title-bar-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.title-bar-controls button {
+    width: 16px;
+    height: 14px;
+    font-size: 9px;
+    padding: 0;
+    min-width: unset;
+}
+
+/* ── main body layout ────────────────────────────────────────────────────── */
+#main-body {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    overflow: hidden;
+    padding: 6px;
+    gap: 6px;
+}
+
+/* ── left panel ──────────────────────────────────────────────────────────── */
+#left-panel {
+    width: 260px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+    background: #c0c0c0;
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    padding: 4px;
+}
+
+#mode-tabs {
+    flex: 1;
+}
+
+#mode-tabs menu {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #808080;
+}
+
+/* ── field rows ──────────────────────────────────────────────────────────── */
+.field-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    gap: 4px;
+}
+
+.field-row label {
+    font-size: 11px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 130px;
+}
+
+.field-row input,
+.field-row select {
+    width: 80px;
+    font-size: 11px;
+}
+
+/* ── info text ───────────────────────────────────────────────────────────── */
+.info-text {
+    font-size: 10px;
+    color: #444;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+/* ── run controls ────────────────────────────────────────────────────────── */
+#run-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    flex-shrink: 0;
+}
+
+#run-btn {
+    width: 120px;
+    font-weight: bold;
+}
+
+#status-text {
+    font-size: 10px;
+    color: #000080;
+    font-style: italic;
+}
+
+/* ── right panel ─────────────────────────────────────────────────────────── */
+#right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+    background: #c0c0c0;
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    padding: 4px;
+}
+
+#viz-tabs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#viz-tabs menu {
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #808080;
+}
+
+#viz-tabs article {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 4px;
+}
+
+/* ── plot containers ─────────────────────────────────────────────────────── */
+.plot-container {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+}
+
+/* ── animation controls ──────────────────────────────────────────────────── */
+.anim-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 2px;
+    flex-shrink: 0;
+    border-top: 1px solid #808080;
+    margin-top: 4px;
+}
+
+.anim-controls button {
+    width: 70px;
+    flex-shrink: 0;
+}
+
+.anim-controls input[type="range"] {
+    flex: 1;
+    min-width: 0;
+}
+
+.anim-controls span {
+    font-size: 10px;
+    white-space: nowrap;
+    min-width: 45px;
+    text-align: right;
+}
+
+/* ── scrollbar styling (retro feel) ──────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background: #c0c0c0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+}
+
+::-webkit-scrollbar-button {
+    background: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    height: 16px;
+    width: 16px;
+}
+
+/* ── hr styling ──────────────────────────────────────────────────────────── */
+hr {
+    border: none;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #ffffff;
+    margin: 6px 0;
+}
+
+/* ── tab panel articles ──────────────────────────────────────────────────── */
+#mode-tabs article {
+    padding: 8px 6px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* ── subscript style ──────────────────────────────────────────────────── */
+sub {
+  font-size: 0.7em;
+  vertical-align: -0.2em;
+}
+
+/* ── loading overlay ─────────────────────────────────────────────────────── */
+#loading-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: #008080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+#loading-box {
+    width: 300px;
+}
+
+/* ── information panel ───────────────────────────────────────────────────── */
+#panel-info dt {
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+#panel-info dd {
+    margin-left: 10px;
+    margin-bottom: 4px;
+    font-style: italic;
+    color: #333;
+}
+
+#panel-info h5 {
+    margin-bottom: 6px;
+    margin-top: 8px;
+}
+
+.info-heading {
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 6px;
+}
+

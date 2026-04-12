@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FGM Lab</title>
+    <!-- 98.css for styling -->
+    <link rel="stylesheet" href="98.css">
+    <!-- plotly for visualizations -->
+    <script src="plotly.min.js"></script>
+    <!-- pyodide for running python in the browser -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <!-- custom styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!--loading overlay -->
+<div id="loading-overlay">
+    <div class="window" id="loading-box">
+        <div class="title-bar">
+            <div class="title-bar-text">FGM Lab — Loading</div>
+        </div>
+        <div class="window-body" style="padding: 16px; text-align: center;">
+            <p id="loading-message">Loading Python environment...</p>
+            <progress id="loading-bar" style="width: 100%; margin-top: 10px;"></progress>
+        </div>
+    </div>
+</div>
+<div id="app-container">
+
+    <!-- title bar -->
+    <div class="title-bar">
+        <div class="title-bar-text">FGM Lab — Fisher's Geometric Model Simulator</div>
+    </div>
+
+    <!-- main window body -->
+    <div class="window-body" id="main-body">
+
+        <!-- left panel: parameters -->
+        <div id="left-panel">
+
+            <!-- mode tabs -->
+            <div class="tabs" id="mode-tabs">
+                <menu role="tablist">
+                    <li role="tab" aria-selected="true"
+                        onclick="switchMode('standard', this)">
+                        <a href="#">Standard model</a>
+                    </li>
+                    <li role="tab"
+                        onclick="switchMode('migration', this)">
+                        <a href="#">+ Migration</a>
+                    </li>
+                    <li role="tab"
+						onclick="switchMode('info', this)">
+						<a href="#">Information</a>
+					</li>
+                </menu>
+
+                <!-- standard mode parameters -->
+                <article role="tabpanel" id="panel-standard">
+                    <div class="field-row">
+                        <label>Dimensions (n traits):</label>
+                        <select id="n-dim" onchange="onDimChange()">
+                            <option value="1">1D</option>
+                            <option value="2">2D</option>
+                        </select>
+                    </div>
+
+                    <!-- 1D parameters -->
+                    <div id="params-1d">
+                        <div class="field-row">
+                            <label>Initial trait mean (z̄<sub>0</sub>):</label>
+                            <input type="number" id="z-init" value="5"
+                                   step="0.5" onchange="onLandscapeParamChange()">
+                        </div>
+                        <div class="field-row">
+                            <label>Optimum (z<sub>opt</sub>):</label>
+                            <input type="number" id="z-opt" value="10"
+                                   step="0.5" onchange="onLandscapeParamChange()">
+                        </div>
+                    </div>
+
+                    <!-- 2D parameters (hidden by default) -->
+                    <div id="params-2d" style="display:none">
+                        <div class="field-row">
+                            <label>Initial trait 1 mean (z̄<sub>0,1</sub>):</label>
+                            <input type="number" id="z-init-1" value="5"
+                                   step="0.5">
+                        </div>
+                        <div class="field-row">
+                            <label>Initial trait 2 mean (z̄<sub>0,2</sub>):</label>
+                            <input type="number" id="z-init-2" value="5"
+                                   step="0.5">
+                        </div>
+                        <div class="field-row">
+                            <label>Optimum trait 1:</label>
+                            <input type="number" id="z-opt-1" value="10"
+                                   step="0.5" onchange="onLandscapeParamChange()">
+                        </div>
+                        <div class="field-row">
+                            <label>Optimum trait 2:</label>
+                            <input type="number" id="z-opt-2" value="10"
+                                   step="0.5" onchange="onLandscapeParamChange()">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- shared parameters -->
+                    <div class="field-row">
+						<label>Initial trait st. dev. (σ<sub>0</sub>):</label>
+						<input type="number" id="init-spread" value="0.1"
+							step="0.05" min="0.0">
+					</div>
+                    <div class="field-row">
+                        <label>Fitness peak width (σ<sub>s</sub>):</label>
+                        <input type="number" id="sigma-sel" value="2"
+                               step="0.5" min="0.1" onchange="onLandscapeParamChange()">
+                    </div>
+                    <div class="field-row">
+                        <label>Mutational effect (σ<sub>m</sub>):</label>
+                        <input type="number" id="sigma-m" value="0.1"
+                               step="0.05" min="0.01">
+                    </div>
+                    <div class="field-row">
+                        <label>Population size (N):</label>
+                        <input type="number" id="n-pop" value="500"
+                               step="50" min="10" max="10000">
+                    </div>
+                    <div class="field-row">
+                        <label>Generations:</label>
+                        <input type="number" id="n-gen" value="200"
+                               step="50" min="10" max="2000">
+                    </div>
+                    <div class="field-row">
+                        <label>Replicates:</label>
+                        <input type="number" id="n-reps" value="5"
+                               step="1" min="1" max="50">
+                    </div>
+                    <div class="field-row">
+                        <label>Random seed:</label>
+                        <input type="number" id="seed" placeholder="optional">
+                    </div>
+                </article>
+
+                <!-- migration mode parameters -->
+                <article role="tabpanel" id="panel-migration"
+                         style="display:none">
+                    <p class="info-text">Inherits landscape and population
+                        parameters from Standard tab.</p>
+                    <hr>
+                    <div class="field-row">
+                        <label>Migration rate [0,1] (m):</label>
+                        <input type="number" id="mig-rate" value="0.1"
+                               step="0.05" min="0" max="1">
+                    </div>
+                    <div class="field-row">
+                        <label>Immigrant pop. trait mean:</label>
+                        <input type="number" id="mig-mean" value="7"
+                               step="0.5">
+                    </div>
+                    <div class="field-row">
+                        <label>Immigrant pop. trait 1 mean:</label>
+                        <input type="number" id="mig-mean-1" value="7"
+                               step="0.5">
+                    </div>
+                    <div class="field-row">
+                        <label>Immigrant pop. trait 2 mean:</label>
+                        <input type="number" id="mig-mean-2" value="7"
+                               step="0.5">
+                    </div>
+                    <div class="field-row">
+                        <label>Immigrant trait st. dev. (σ<sub>i</sub>):</label>
+                        <input type="number" id="mig-sd" value="1"
+                               step="0.1" min="0.1">
+                    </div>
+                </article>
+                
+                 <!-- information panel -->
+				<article role="tabpanel" id="panel-info" style="display:none; overflow-y:auto;">
+					<p class="info-heading">Standard model parameters</p>
+					<hr>
+					<dl>
+						<dt>Dimensions</dt>
+						<dd>The number of traits under consideration (1D or 2D).</dd>
+						<dt>Initial trait mean (z̄<sub>0</sub>)</dt>
+						<dd>The population mean trait value at the start of simulations.
+							This description also applies to Initial trait 1 mean (z̄<sub>0,1</sub>)
+							and Initial trait 2 mean (z̄<sub>0,2</sub>) in the 2D model.</dd>
+						<dt>Optimum (z<sub>opt</sub>)</dt>
+						<dd>The trait value that grants the highest fitness. This description
+							also applies to Optimum trait 1 and Optimum trait 2 in the 2D model.</dd>
+						<dt>Initial trait st. dev. (σ<sub>0</sub>)</dt>
+						<dd>The population standard deviation in trait values at the start of the
+							simulation. Increasing this value corresponds to greater initial variation.
+							For simplicity, the same initial standard deviation is set for both traits
+							in the 2D model.</dd>
+						<dt>Fitness peak width (σ<sub>s</sub>)</dt>
+						<dd>Corresponds to the strength of selection. 
+						Larger values mean a wider fitness peak and therefore weaker selection. 
+						Smaller values mean a narrower fitness peak and therefore stronger selection.</dd>
+						<dt>Mutational effect (σ<sub>m</sub>)</dt>
+						<dd>The standard deviation in the distribution from which trait mutations are drawn.
+							Increasing this value corresponds to greater mutational effects.</dd>
+						<dt>Population size (N)</dt>
+						<dd>The number of individuals in the population.</dd>
+						<dt>Replicates</dt>
+						<dd>The number of replicate simulations to conduct.</dd>
+						<dt>Random seed</dt>
+						<dd>The random seed can be any integer (42 is common). Setting a random seed
+							allows for simulation results to be reproducible.</dd>
+
+					<p class="info-heading">+ Migration model parameters</p>
+					<hr>
+						<dt>Migration rate [0,1] (m)</dt>
+						<dd>The fraction of the focal population replaced by immigrants each generation.</dd>
+						<dt>Immigrant pop. trait mean</dt>
+						<dd>The population mean trait value of the population that is immigrating 
+							into the focal population. This description also applies to 
+							Immigrant pop. trait 1 mean and Immigrant pop. trait mean in the 2D model.</dd>
+						<dt>Immigrant trait st. dev. (σ<sub>i</sub>)</dt>
+						<dd>The population standard deviation in trait values in the population that is immigrating 
+							into the focal population. For simplicity, the same standard deviation is set
+							for both traits in the 2D model.</dd>
+					</dl>
+					<hr>
+					<p class="info-text">version 2026.04</p>
+				</article>
+            </div>
+
+            <!--run button -->
+            <div id="run-controls">
+                <button id="run-btn" onclick="runSimulation()" disabled>
+                    Run Simulation
+                </button>
+                <span id="status-text"></span>
+            </div>
+
+        </div>
+
+        <!-- right panel: visualizations -->
+        <div id="right-panel">
+            <div class="tabs" id="viz-tabs">
+                <menu role="tablist">
+                    <li role="tab" aria-selected="true"
+                        onclick="switchViz('landscape', this)">
+                        <a href="#">Fitness Landscape</a>
+                    </li>
+                    <li role="tab"
+                        onclick="switchViz('population', this)">
+                        <a href="#">Population</a>
+                    </li>
+                    <li role="tab"
+                        onclick="switchViz('distribution', this)">
+                        <a href="#">Trait Distribution</a>
+                    </li>
+                    <li role="tab"
+                        onclick="switchViz('trajectory', this)">
+                        <a href="#">Mean Trajectory</a>
+                    </li>
+                </menu>
+
+                <!-- fitness landscape panel -->
+                <article role="tabpanel" id="viz-landscape">
+                    <div id="plot-landscape" class="plot-container"></div>
+                </article>
+
+                <!-- population on landscape panel -->
+                <article role="tabpanel" id="viz-population"
+                         style="display:none">
+                    <div id="plot-population" class="plot-container"></div>
+                    <div id="anim-controls-population" class="anim-controls">
+                        <button id="btn-play-pop" onclick="togglePlay('pop')">
+                            ▶ Play
+                        </button>
+                        <input type="range" id="scrub-pop" min="0" value="0"
+                               oninput="scrubTo('pop', this.value)">
+                        <span id="gen-label-pop">Gen 0</span>
+                    </div>
+                </article>
+
+                <!-- trait distribution panel -->
+                <article role="tabpanel" id="viz-distribution"
+                         style="display:none">
+                    <div id="plot-distribution" class="plot-container"></div>
+                    <div id="anim-controls-dist" class="anim-controls">
+                        <button id="btn-play-dist" onclick="togglePlay('dist')">
+                            ▶ Play
+                        </button>
+                        <input type="range" id="scrub-dist" min="0" value="0"
+                               oninput="scrubTo('dist', this.value)">
+                        <span id="gen-label-dist">Gen 0</span>
+                    </div>
+                </article>
+
+                <!-- mean trajectory panel -->
+                <article role="tabpanel" id="viz-trajectory"
+                         style="display:none">
+                    <div id="plot-trajectory" class="plot-container"></div>
+                </article>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
