@@ -31,7 +31,7 @@ In addition to application practicality, familiarity with Fisher's geometric mod
 
 FGMLab is hosted as a static web page at [https://gabe-dubose.github.io/FGMLab/](https://gabe-dubose.github.io/FGMLab/), and the source code is publicly available at [https://github.com/gabe-dubose/FGMLab](https://github.com/gabe-dubose/FGMLab). Within the application, students can manipulate a variety of parameters, which are described in Table 1. Documentation of these parameters are also provided in the *Information* tab within FGMLab, allowing students to access this information without needing to locate this resource. FGMLab also utilizes the *viridis* color palette for visualizations, which is designed to be perceptually uniform and to support interpretation by individuals with different forms of color vision deficiency.
 
-: Model parameters that can be manipulated in FGMLab.
+Table 1. Model parameters that can be manipulated in FGMLab.
 | Parameter | Description |
 |----------|-------------|
 | **Dimensions** | The number of traits under consideration (1D or 2D). |
