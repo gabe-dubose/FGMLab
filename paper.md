@@ -43,7 +43,6 @@ FGMLab is hosted as a static web page at [https://gabe-dubose.github.io/FGMLab/]
 | **Population size ($N$)** | The number of individuals in the population. |
 | **Replicates** | The number of replicate simulations to conduct. |
 | **Random seed** | The random seed can be any integer (42 is common). Setting a random seed allows for simulation results to be reproducible. |
-| **Migration model parameters** |  |
 | **Migration rate [0,1] ($m$)** | The fraction of the focal population replaced by immigrants each generation. |
 | **Immigrant population trait mean** | The population mean trait value of the population that is immigrating into the focal population. This description also applies to Immigrant pop. trait 1 mean and Immigrant pop. trait 2 mean in the 2D model. |
 | **Immigrant trait st. dev. ($\sigma_i$)** | The population standard deviation in trait values in the population that is immigrating into the focal population. For simplicity, the same standard deviation is set for both traits in the 2D model. |
