@@ -13,15 +13,18 @@ let pyodide = null;
 
 // tab switching
 function switchMode(mode, el) {
-    // update tab selected state
-    document.querySelectorAll('#mode-tabs menu li').forEach(li => {
-        li.removeAttribute('aria-selected');
+
+    state.mode = mode;
+    document.querySelectorAll('#mode-tabs [role="tab"]').forEach(t => {
+        t.setAttribute('aria-selected', 'false');
     });
     el.setAttribute('aria-selected', 'true');
-    // show correct panel
-    document.getElementById('panel-standard').style.display  = mode === 'standard'  ? '' : 'none';
-    document.getElementById('panel-migration').style.display = mode === 'migration' ? '' : 'none';
-    document.getElementById('panel-info').style.display      = mode === 'info'      ? '' : 'none';
+    document.getElementById('panel-standard').style.display =
+        mode === 'standard' ? 'block' : 'none';
+    document.getElementById('panel-migration').style.display =
+        mode === 'migration' ? 'block' : 'none';
+    document.getElementById('panel-info').style.display =
+        mode === 'info' ? 'block' : 'none';
 }
 
 function switchViz(viz, el) {
@@ -83,9 +86,9 @@ json.dumps({'z1_vals': z1_vals, 'z2_vals': z2_vals, 'w_grid': w_grid})
 
 // collect parameters from UI
 function collectParams() {
+	const mode = state.mode || 'standard';
     const dim = document.getElementById('n-dim').value;
-    const mode = document.querySelector('#mode-tabs menu li[aria-selected="true"]')
-                         .textContent.trim().toLowerCase();
+
     const p = {
         n_dim : dim,
         sigma_sel : document.getElementById('sigma-sel').value,

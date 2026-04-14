@@ -1,4 +1,4 @@
-/* ── global reset and base ───────────────────────────────────────────────── */
+/* global reset and base */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -17,7 +17,7 @@ body {
     overflow: hidden;
 }
 
-/* ── main app container (outer window) ───────────────────────────────────── */
+/* main app container (outer window) */
 #app-container {
     width: 98vw;
     height: 96vh;
@@ -31,7 +31,7 @@ body {
     box-shadow: 2px 2px 0px #000000;
 }
 
-/* ── title bar ───────────────────────────────────────────────────────────── */
+/* title bar */
 .title-bar {
     background: linear-gradient(to right, #000080, #1084d0);
     padding: 3px 4px;
@@ -60,7 +60,7 @@ body {
     min-width: unset;
 }
 
-/* ── main body layout ────────────────────────────────────────────────────── */
+/* main body layout */
 #main-body {
     display: flex;
     flex-direction: row;
@@ -70,7 +70,7 @@ body {
     gap: 6px;
 }
 
-/* ── left panel ──────────────────────────────────────────────────────────── */
+/* left panel */
 #left-panel {
     width: 260px;
     flex-shrink: 0;
@@ -96,7 +96,7 @@ body {
     border-bottom: 1px solid #808080;
 }
 
-/* ── field rows ──────────────────────────────────────────────────────────── */
+/* field rows */
 .field-row {
     display: flex;
     align-items: center;
@@ -118,7 +118,7 @@ body {
     font-size: 11px;
 }
 
-/* ── info text ───────────────────────────────────────────────────────────── */
+/* info text */
 .info-text {
     font-size: 10px;
     color: #444;
@@ -126,7 +126,7 @@ body {
     margin-bottom: 4px;
 }
 
-/* ── run controls ────────────────────────────────────────────────────────── */
+/* run controls */
 #run-controls {
     display: flex;
     align-items: center;
@@ -146,7 +146,7 @@ body {
     font-style: italic;
 }
 
-/* ── right panel ─────────────────────────────────────────────────────────── */
+/* right panel */
 #right-panel {
     flex: 1;
     display: flex;
@@ -183,14 +183,14 @@ body {
     padding: 4px;
 }
 
-/* ── plot containers ─────────────────────────────────────────────────────── */
+/* plot containers */
 .plot-container {
     flex: 1;
     width: 100%;
     min-height: 0;
 }
 
-/* ── animation controls ──────────────────────────────────────────────────── */
+/* animation controls */
 .anim-controls {
     display: flex;
     align-items: center;
@@ -218,7 +218,7 @@ body {
     text-align: right;
 }
 
-/* ── scrollbar styling (retro feel) ──────────────────────────────────────── */
+/* scrollbar styling */
 ::-webkit-scrollbar {
     width: 16px;
     height: 16px;
@@ -246,7 +246,7 @@ body {
     width: 16px;
 }
 
-/* ── hr styling ──────────────────────────────────────────────────────────── */
+/* hr styling */
 hr {
     border: none;
     border-top: 1px solid #808080;
@@ -254,20 +254,20 @@ hr {
     margin: 6px 0;
 }
 
-/* ── tab panel articles ──────────────────────────────────────────────────── */
+/* tab panel articles */
 #mode-tabs article {
     padding: 8px 6px;
     overflow-y: auto;
     flex: 1;
 }
 
-/* ── subscript style ──────────────────────────────────────────────────── */
+/* subscript style */
 sub {
   font-size: 0.7em;
   vertical-align: -0.2em;
 }
 
-/* ── loading overlay ─────────────────────────────────────────────────────── */
+/* loading overlay */
 #loading-overlay {
     position: fixed;
     top: 0; left: 0;
@@ -283,7 +283,7 @@ sub {
     width: 300px;
 }
 
-/* ── information panel ───────────────────────────────────────────────────── */
+/* information panel */
 #panel-info dt {
     font-weight: bold;
     margin-top: 6px;
